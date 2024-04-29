@@ -1,0 +1,140 @@
+## activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to the Bruxism App"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter name"
+        android:layout_below="@id/textViewInfo"
+        android:layout_marginTop="24dp"/>
+
+    <EditText
+        android:id="@+id/editTextUserAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter age"
+        android:inputType="number"
+        android:layout_below="@id/editTextUserName"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/buttonSaveUserInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save User Info"
+        android:layout_below="@id/editTextUserAge"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"/>
+
+    <Button
+        android:id="@+id/buttonSync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sync Data"
+        android:layout_below="@id/buttonSaveUserInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"/>
+
+    <Button
+        android:id="@+id/buttonConnectDevice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connect to Device"
+        android:layout_below="@id/buttonSync"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"/>
+
+    <TextView
+        android:id="@+id/textViewSyncStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sync status: Not synced"
+        android:layout_below="@id/buttonConnectDevice"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/buttonConnectDevice" />
+
+</RelativeLayout>
+
+
+
+##activity_chart.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>
+
+
+
+
+##ChartActivity.kt
+package com.example.myapplication
+
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.databinding.ActivityChartBinding
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+
+class ChartActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityChartBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityChartBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupChart()
+    }
+
+    private fun setupChart() {
+        val entries = ArrayList<Entry>().apply {
+            // Example data - replace this with real data
+            add(Entry(1f, 2f))
+            add(Entry(2f, 3f))
+            // Add more entries as needed
+        }
+
+        val dataSet = LineDataSet(entries, "Bruxism Data").apply {
+            // Use the colors defined in colors.xml
+            color = resources.getColor(R.color.black, theme)
+            valueTextColor = resources.getColor(R.color.white, theme)
+            setCircleColor(resources.getColor(R.color.white, theme))
+            // More styling options...
+        }
+
+        val lineData = LineData(dataSet)
+        binding.chart.data = lineData
+        binding.chart.description.text = "EMG Data Over Time"
+        binding.chart.invalidate() // Refresh the chart
+    }
+}
