@@ -27,7 +27,7 @@
 
 #include <ArduinoJson.h> // for parsing JSON data
 #include <SoftwareSerial.h> // for communicating with the Bluetooth module
-SoftwareSerial btSerial(2, 3); // RX, TX pins for the Bluetooth module
+SoftwareSerial btSerial(3, 5); // RX, TX pins for the Bluetooth module, GPIO43 & GPIO44
 String eventData; // String to store the event data
 DynamicJsonDocument doc(1024); // JSON document to store the event data - note, adjust size based on needs
 
