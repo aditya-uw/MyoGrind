@@ -58,7 +58,7 @@ void setup() {
   if (dataFile) {
     // Check if the file is empty, if so, write headers
     if (dataFile.size() == 0) {
-      dataFile.println("EventID,StartTime,EndTime,Timestamp,SensorValue");
+      dataFile.println("EventID,CurrentTime,SensorValue");
     }
     dataFile.close();
   } else {
