@@ -1,7 +1,8 @@
 //json
 import React, { useState } from 'react';
+import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
 
-const DataDisplayScreen = () => {
+const DataDisplayScreen = ({ navigation }) => {
   const [emgData, setEmgData] = useState([]);
 
   const connectToBluetooth = async () => {
@@ -28,22 +29,36 @@ const DataDisplayScreen = () => {
   };
 
   return (
-    <div>
-      <h1>EMG Data via Bluetooth</h1>
-      <button onClick={connectToBluetooth}>Connect to Bluetooth</button>
-      <ul>
-        {emgData.map((dataPoint, index) => (
-          <li key={index}>{dataPoint}</li>
-        ))}
-      </ul>
-    </div>
+    <View style={styles.container}>
+      <Text style={styles.title}>EMG Data via Bluetooth</Text>
+      <Button title="Connect to Bluetooth" onPress={connectToBluetooth} />
+      <FlatList
+        data={emgData}
+        renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+        keyExtractor={(item, index) => index.toString()}
+      />
+      <Button title="Go to Settings" onPress={() => navigation.navigate('Settings')} />
+    </View>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 16,
+  },
+  item: {
+    padding: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+});
+
 export default DataDisplayScreen;
-
-
-
 
 
 //csv
