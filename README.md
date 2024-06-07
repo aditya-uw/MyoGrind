@@ -22,6 +22,9 @@ MyoGrind is a project designed to manage bruxism by using the MyoWare EMG Sensor
 - Arduino IDE
 - MyoWare 2.0 Muscle Sensor and Wireless Shield
 - Bluetooth-enabled device for receiving data (e.g., smartphone, laptop)
+- **Libraries:**
+  - ArduinoBLE
+  - MyoWare
 
 ### Installation
 
@@ -32,11 +35,21 @@ MyoGrind is a project designed to manage bruxism by using the MyoWare EMG Sensor
     cd MyoGrind
     ```
 
-2. **Open the Arduino code:**
+2. **Install Arduino IDE:**
+
+    Download and install the [Arduino IDE](https://www.arduino.cc/en/software).
+
+3. **Install required libraries:**
+
+    Open Arduino IDE, go to **Sketch** -> **Include Library** -> **Manage Libraries...**, then search for and install:
+    - ArduinoBLE
+    - MyoWare
+
+4. **Open the Arduino code:**
 
     Navigate to the `code` directory and open the Arduino sketch in the Arduino IDE.
 
-3. **Upload the code to your Arduino:**
+5. **Upload the code to your Arduino:**
 
     Connect your Arduino board to your computer and upload the sketch.
 
