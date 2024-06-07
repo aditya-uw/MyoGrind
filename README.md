@@ -58,6 +58,7 @@ MyoGrind is a project designed to manage bruxism by using the MyoWare EMG Sensor
 - **code:**
   - **DEPLOYED:** Contains the deployed Arduino code that makes the system work.
   - **dev_code:** Contains development code and experiments.
+  - **data_collection:** Contains code for collecting EMG data using the Arduino serial monitor. The collected data is stored in .json files and is used with Edge Impulse to train a machine learning model.
 
 ## Arduino Code
 
@@ -84,6 +85,10 @@ To ensure the MyoGrind is broadcasting using Bluetooth Low-Energy:
 1. **Download the LightBlue app on your smartphone.**
 2. **Open the app and scan for nearby Bluetooth devices.**
 3. **Find and select "Arduino" or "MyoGrind" in your list of peripherals.**
+
+## Data Collection
+
+The `data_collection` folder contains code for collecting EMG data via the Arduino serial monitor. This data is stored in .json files and can be uploaded to Edge Impulse to train a machine learning model. This model can potentially be quantized and deployed on the Arduino to perform on-board predictions of teeth-grinding, talking, chewing, or other oral activities.
 
 ## Contributing
 
