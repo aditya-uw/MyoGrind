@@ -1,282 +1,94 @@
 # MyoGrind
+
 EE/BIOEN 461/561: Neural Engineering Tech Studio
 
-Sure! Here is a comprehensive README file for your GitHub repository, detailing how to set up and use your React Native application with Bluetooth functionality.
+## Overview
 
-### README.md
-
-```markdown
-# EMG Data Viewer App
-
-This repository contains a React Native application for viewing EMG data transmitted from an Arduino device via Bluetooth. The app includes screens for user login, data display, and device settings, allowing users to monitor and control various aspects of the connected Arduino device.
+MyoGrind is a project designed to manage bruxism by using the MyoWare EMG Sensor Ecosystem to collect and transmit EMG data via Bluetooth. EMG sensors are placed along the masseter muscles of the human face to record and detect teeth grinding events, making this project clinically relevant for bruxism management.
 
 ## Table of Contents
 
-- [Installation](#installation)
+- [Setup](#setup)
+- [Repository Structure](#repository-structure)
+- [Arduino Code](#arduino-code)
 - [Usage](#usage)
-- [Screens](#screens)
-  - [Login Screen](#login-screen)
-  - [Data Display Screen](#data-display-screen)
-  - [Settings Screen](#settings-screen)
-- [Bluetooth Integration](#bluetooth-integration)
 - [Contributing](#contributing)
 - [License](#license)
 
-## Installation
+## Setup
 
 ### Prerequisites
 
-- Node.js and npm (or Yarn)
-- React Native CLI or Expo CLI
-- An Arduino device with a Bluetooth module
+- Arduino IDE
+- MyoWare 2.0 Muscle Sensor and Wireless Shield
+- Bluetooth-enabled device for receiving data (e.g., smartphone, laptop)
+- **Libraries:**
+  - ArduinoBLE
+  - MyoWare
 
-### Setup
+### Installation
 
 1. **Clone the repository:**
 
-   ```bash
-   git clone https://github.com/your-username/emg-data-viewer-app.git
-   cd emg-data-viewer-app
-   ```
+    ```bash
+    git clone https://github.com/aditya-uw/MyoGrind.git
+    cd MyoGrind
+    ```
 
-2. **Install dependencies:**
+2. **Install Arduino IDE:**
 
-   Using npm:
+    Download and install the [Arduino IDE](https://www.arduino.cc/en/software).
 
-   ```bash
-   npm install
-   ```
+3. **Install required libraries:**
 
-   Or using Yarn:
+    Open Arduino IDE, go to **Sketch** -> **Include Library** -> **Manage Libraries...**, then search for and install:
+    - ArduinoBLE
+    - MyoWare
 
-   ```bash
-   yarn install
-   ```
+4. **Open the Arduino code:**
 
-3. **Start the development server:**
+    Navigate to the `code` directory and open the Arduino sketch in the Arduino IDE.
 
-   For React Native CLI:
+5. **Upload the code to your Arduino:**
 
-   ```bash
-   npx react-native run-android
-   # or
-   npx react-native run-ios
-   ```
+    Connect your Arduino board to your computer and upload the sketch.
 
-   For Expo CLI:
+## Repository Structure
 
-   ```bash
-   expo start
-   ```
+- **code:**
+  - **DEPLOYED:** Contains the deployed Arduino code that makes the system work.
+  - **dev_code:** Contains development code and experiments.
+  - **data_collection:** Contains code for collecting EMG data using the Arduino serial monitor. The collected data is stored in .json files and is used with Edge Impulse to train a machine learning model.
+
+## Arduino Code
+
+The Arduino code is located in the `code` directory. It configures the MyoWare sensor to read EMG data and transmit it via Bluetooth.
+
+### Key Features
+
+- Reads ENV, RAW, and REF data from the MyoWare sensor.
+- Transmits data via Bluetooth with the local name "MyoGrind".
 
 ## Usage
 
-### Running the App
+### Running the Arduino Code
 
-After setting up the development environment, you can run the app on your connected device or emulator. The initial screen will be the Login screen.
+1. **Connect the MyoWare sensor to your Arduino.**
+2. **Upload the code from the `code/DEPLOYED` directory.**
+3. **Place the EMG sensors along the masseter muscles to detect bruxism events.**
+4. **Power on the device and ensure it is broadcasting as "MyoGrind".**
 
-### Navigation
+### Verifying Bluetooth Broadcasting
 
-- **Login Screen:** Enter credentials and navigate to the Data Display screen.
-- **Data Display Screen:** View EMG data received via Bluetooth and navigate to the Settings screen.
-- **Settings Screen:** Control vibration motor level and view device battery level and SD card capacity.
+To ensure the MyoGrind is broadcasting using Bluetooth Low-Energy:
 
-## Screens
+1. **Download the LightBlue app on your smartphone.**
+2. **Open the app and scan for nearby Bluetooth devices.**
+3. **Find and select "Arduino" or "MyoGrind" in your list of peripherals.**
 
-### Login Screen
+## Data Collection
 
-`LoginScreen.js` handles user authentication and navigation to the Data Display screen.
-
-```javascript
-import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-
-const LoginScreen = ({ navigation }) => {
-  const handleLogin = () => {
-    // Perform login logic here
-    // After successful login, navigate to DataDisplayScreen
-    navigation.navigate('DataDisplay');
-  };
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login Screen</Text>
-      <Button title="Login" onPress={handleLogin} />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 16,
-  },
-});
-
-export default LoginScreen;
-```
-
-### Data Display Screen
-
-`DataDisplayScreen.js` displays EMG data received from the Arduino device and includes navigation to the Settings screen.
-
-```javascript
-import React, { useState } from 'react';
-import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
-
-const DataDisplayScreen = ({ navigation }) => {
-  const [emgData, setEmgData] = useState([]);
-
-  const connectToBluetooth = async () => {
-    try {
-      const device = await navigator.bluetooth.requestDevice({
-        filters: [{ namePrefix: 'YourDeviceName' }],
-        optionalServices: ['your-service-uuid']
-      });
-
-      const server = await device.gatt.connect();
-      const service = await server.getPrimaryService('your-service-uuid');
-      const characteristic = await service.getCharacteristic('your-characteristic-uuid');
-
-      await characteristic.startNotifications();
-      characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicValueChanged);
-    } catch (error) {
-      console.error('Bluetooth connection failed', error);
-    }
-  };
-
-  const handleCharacteristicValueChanged = (event) => {
-    const value = new TextDecoder().decode(event.target.value);
-    setEmgData((prevData) => [...prevData, value]);
-  };
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>EMG Data via Bluetooth</Text>
-      <Button title="Connect to Bluetooth" onPress={connectToBluetooth} />
-      <FlatList
-        data={emgData}
-        renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-        keyExtractor={(item, index) => index.toString()}
-      />
-      <Button title="Go to Settings" onPress={() => navigation.navigate('Settings')} />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 16,
-  },
-  item: {
-    padding: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-});
-
-export default DataDisplayScreen;
-```
-
-### Settings Screen
-
-`SettingsScreen.js` allows users to control the vibration motor level and view device battery level and SD card capacity.
-
-```javascript
-import React, { useState } from 'react';
-import { View, Text, Slider, Button, StyleSheet } from 'react-native';
-
-const SettingsScreen = () => {
-  const [vibrationLevel, setVibrationLevel] = useState(0);
-  const [batteryLevel, setBatteryLevel] = useState(100); // Mock value, will be updated from Arduino
-  const [sdCardCapacity, setSdCardCapacity] = useState(100); // Mock value, will be updated from Arduino
-
-  const updateVibrationLevel = (value) => {
-    setVibrationLevel(value);
-    // Send the vibration level to the Arduino
-    // TODO: Implement the Bluetooth communication to send this value to the Arduino
-  };
-
-  const fetchDeviceStatus = async () => {
-    // Fetch battery level and SD card capacity from Arduino
-    // TODO: Implement the Bluetooth communication to get these values from the Arduino
-    // For now, let's mock these values
-    setBatteryLevel(85); // Example value
-    setSdCardCapacity(50); // Example value
-  };
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
-      <View style={styles.setting}>
-        <Text>Vibration Motor Level: {vibrationLevel}</Text>
-        <Slider
-          style={styles.slider}
-          minimumValue={0}
-          maximumValue={100}
-          step={1}
-          value={vibrationLevel}
-          onValueChange={updateVibrationLevel}
-        />
-      </View>
-      <View style={styles.setting}>
-        <Text>Battery Level: {batteryLevel}%</Text>
-      </View>
-      <View style={styles.setting}>
-        <Text>SD Card Capacity: {sdCardCapacity}%</Text>
-      </View>
-      <Button title="Fetch Device Status" onPress={fetchDeviceStatus} />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 16,
-  },
-  setting: {
-    marginBottom: 24,
-  },
-  slider: {
-    width: '100%',
-    height: 40,
-  },
-});
-
-export default SettingsScreen;
-```
-
-## Bluetooth Integration
-
-This app uses the Web Bluetooth API to communicate with an Arduino device. Ensure your device's Bluetooth service UUID and characteristic UUID are correctly configured in the `DataDisplayScreen.js` and `SettingsScreen.js` files.
-
-### Connecting to Bluetooth
-
-In `DataDisplayScreen.js` and `SettingsScreen.js`, replace the placeholders with the actual UUIDs and device name:
-
-```javascript
-const device = await navigator.bluetooth.requestDevice({
-  filters: [{ namePrefix: 'YourDeviceName' }],
-  optionalServices: ['your-service-uuid']
-});
-```
-
-Ensure your development environment supports HTTPS, as the Web Bluetooth API requires a secure context.
+The `data_collection` folder contains code for collecting EMG data via the Arduino serial monitor. This data is stored in .json files and can be uploaded to Edge Impulse to train a machine learning model. This model can potentially be quantized and deployed on the Arduino to perform on-board predictions of teeth-grinding, talking, chewing, or other oral activities.
 
 ## Contributing
 
@@ -285,8 +97,3 @@ Contributions are welcome! Please submit a pull request or open an issue to disc
 ## License
 
 This project is licensed under the MIT License.
-```
-
-### Summary
-
-This README provides a comprehensive guide for users to understand the purpose, setup, and usage of your EMG Data Viewer App. It includes instructions for installation, usage, a detailed description of each screen, and the necessary steps for integrating Bluetooth communication.

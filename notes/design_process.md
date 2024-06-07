@@ -1,11 +1,11 @@
-# Week (Saturday 4/20 - Saturday 4/27)
+# Design Process Notes
 - Received all of our hardware on Saturday:
     - Arduino R4 Wifi
     - MyoWare 2.0 Muscle Development Kit
     - Vibration motors
     - Storage box
     - EMG sensor 
-- On Thursday, Elijah and I met in ECE lab:
+- On 4/25, Elijah and I met in ECE lab:
     - Got Arduino R4 working and reading muscle activity from the forearms to plot on serial plotter.
     - Wrote code to vibrate motor at a constant value.
     - Wrote code to vibrate motor when EMG readings went above a certain value.
