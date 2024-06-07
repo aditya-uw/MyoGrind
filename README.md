@@ -54,11 +54,22 @@ MyoGrind is a project designed to manage bruxism by using the MyoWare EMG Sensor
     Connect your Arduino board to your computer and upload the sketch.
 
 ## Repository Structure
+- **app:** This folder contains the application components including:
+  - **Display:** User interface for visualizing data and interactions.
+  - **Login Screen:** Secure access to the application.
+  - **Teeth Grinding Visualization:** A screen to visualize the number of teeth grinding events in a table and a bar graph showing the number of events per day.
+  - **Settings Page:** Interface to adjust the vibration level and display the MyoGrind device battery level.
+- **code:** This folder contains all the code related to the project:
+  - **dev_code:** Contains Arduino code used during the development phase. This code was written and uploaded to Arduino using the Arduino IDE.
+  - **DEPLOYED:** Code that was deployed on the Arduino on the day of the demo.
+  - **data_collection:** Code to read data from the serial monitor and collect it into .json files for use in machine learning to detect teeth grinding activities compared to other oral activities.
+- **data:** This folder contains the .json files collected during data collection, which have been converted into .csv files for further analysis.
 
-- **code:**
-  - **DEPLOYED:** Contains the deployed Arduino code that makes the system work.
-  - **dev_code:** Contains development code and experiments.
-  - **data_collection:** Contains code for collecting EMG data using the Arduino serial monitor. The collected data is stored in .json files and is used with Edge Impulse to train a machine learning model.
+- **notebooks:** This folder contains Jupyter notebooks used to open .json files and plot the EMG data to observe teeth grinding events.
+
+- **notes:** Design process notes including device specifications, troubleshooting tips, achievements, and other project-related information.
+
+- **pics:** Contains images documenting the project development process.
 
 ## Arduino Code
 
