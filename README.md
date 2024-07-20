@@ -9,10 +9,14 @@ MyoGrind is a project designed to manage bruxism by using the MyoWare EMG Sensor
 ## Authors
 
 This code and project was completed by UW students listed below:
--Aditya Krishna 
--Elijah Reeb
--Emily Rodgers
--Frenda Lin
+
+Aditya Krishna 
+
+Elijah Reeb
+
+Emily Rodgers
+
+Frenda Lin
 
 ## Table of Contents
 
