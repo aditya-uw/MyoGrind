@@ -6,6 +6,14 @@ EE/BIOEN 461/561: Neural Engineering Tech Studio
 
 MyoGrind is a project designed to manage bruxism by using the MyoWare EMG Sensor Ecosystem to collect and transmit EMG data via Bluetooth. EMG sensors are placed along the masseter muscles of the human face to record and detect teeth grinding events, making this project clinically relevant for bruxism management.
 
+## Authors
+
+This code and project was completed by UW students listed below:
+Aditya Krishna 
+Elijah Reeb
+Emily Rodgers
+Frenda Lin
+
 ## Table of Contents
 
 - [Setup](#setup)
