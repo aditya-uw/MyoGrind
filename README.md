@@ -10,6 +10,9 @@ MyoGrind works by the electromyographic (EMG) sensors being placed along the mas
 
 In addition, MyoGrind expands on existing solutions by combating the fact that some of teeth grinding is stress or habit related. All information is compiled into a custom mobile phone app to track a user’s grinding over time and provide positive reinforcement to reduce stress and reduce this habit. 
 
+Approximate System Diagram:
+![image](https://github.com/user-attachments/assets/322b0353-5430-418d-80bc-2ff411fe6630)
+
 
 ## Authors
 
