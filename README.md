@@ -4,7 +4,12 @@ EE/BIOEN 461/561: Neural Engineering Tech Studio
 
 ## Overview
 
-MyoGrind is a project designed to manage bruxism by using the MyoWare EMG Sensor Ecosystem to collect and transmit EMG data via Bluetooth. EMG sensors are placed along the masseter muscles of the human face to record and detect teeth grinding events, making this project clinically relevant for bruxism management.
+MyoGrind is a 0 to 1 neural engineering capstone project designed to manage bruxism also known as teeth grinding. MyoGrind uses the MyoWare EMG Sensor Ecosystem and an Arduino, all purchasable online and combines them with minimal wiring and the code in this repository. 
+
+MyoGrind works by the electromyographic (EMG) sensors being placed along the masseter muscles of the human face to record and detect teeth grinding events, making this project clinically relevant for bruxism management. These EMG signals are then sent via Bluetooth to a phone or computer holding our detection algorithm. The algorithm is only preliminary but involves post-processing to remove noise or errors in the EMG signal as the MyoWare sensors have some difficulty reading in some orientations and are not the most high-end. Next, the data is broken from complete time-series data into smaller pieces before each piece is fed into a supervised learning neural network model. This model is proof of concept but had > 80% accuracy in distinguishing resting jaw EMG, talking EMG, and grinding EMG. After the model determines the state of the muscles, an indicator light and vibration motors receive a signal in order to relax the muscles and notify the user that they are grinding their teeth. The motor power is adjustable by a dial potentiometer in the circuit for added comfort. 
+
+In addition, MyoGrind expands on existing solutions by combating the fact that some of teeth grinding is stress or habit related. All information is compiled into a custom mobile phone app to track a user’s grinding over time and provide positive reinforcement to reduce stress and reduce this habit. 
+
 
 ## Authors
 
